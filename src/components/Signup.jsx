@@ -75,7 +75,7 @@ export default function Signup() {
 
       navigation("/Sidebar");
     } catch (error) {
-      console.log("log errorrr");
+      console.log("log errorrr", error);
     }
   };
 

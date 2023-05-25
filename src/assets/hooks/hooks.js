@@ -19,10 +19,15 @@ const useLogin = () => {
     onSuccess: (result, variables, context) => {
       if (context.onSuccessCb) {
         context.onSuccessCb(result);
+        console.log(
+          "context.onSuccessCb(result);",
+          context.onSuccessCb(result)
+        );
       }
     },
     onError: (error, variables, context) => {
       if (context.onErrorCb) {
+        console.log("onErrorCb", context.onErrorCb(error));
         context.onErrorCb(error);
       }
     },
@@ -63,8 +68,8 @@ const useSignUp = () => {
 const useFetchData = () => {
   return useQuery(["useFetchDataApi"], () => fetchDataApi(), {
     select: (data) => data,
-    refetchOnMount: true,
-    refetchOnWindowFocus: true,
+    // refetchOnMount: true,
+    // refetchOnWindowFocus: true,
   });
 };
 

@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import loginImg from "../assets/login.png";
 import Logo from "../assets/logo.png";
 import CustomInput from "./customComponent/customInput";
 import { useLogin } from "../assets/hooks/hooks";
+import { storeToken } from "../assets/token";
 
 export default function Signin() {
   const [email, setEmail] = useState();
@@ -11,6 +12,7 @@ export default function Signin() {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const signInMutation = useLogin();
+  const navigation = useNavigate();
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -62,15 +64,16 @@ export default function Signin() {
 
       setEmail("");
       setPassword("");
+      // setConfrimPassword("");
+      //setName("");
       // <Link to="/Sidebar"></Link>;
       console.log("joisjo");
 
       navigation("/Sidebar");
     } catch (error) {
-      console.log("log errorrr");
+      console.log("logoniin", error);
     }
   };
-
   const onErrorCb = async (error) => {
     console.log(error);
     // // if (error?.code === signUpErrorCode.fieldExists) {
