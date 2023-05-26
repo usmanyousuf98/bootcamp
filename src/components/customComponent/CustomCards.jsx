@@ -40,8 +40,8 @@ export const CustomCards = ({
   };
 
   return (
-    <div class="max-w-sm rounded overflow-hidden shadow-lg bg-slate-300 m-6 grid ">
-      <div class="px-4 pt-4">
+    <div className="max-w-sm rounded overflow-hidden shadow-lg bg-slate-300 m-6 grid ">
+      <div className="px-4 pt-4">
         {/* <div className="bg-white rounded-lg shadow-md p-4"> */}
         <h2 className="card_title font-bold">{title}</h2>
         <p className="card_description">{description}</p>
@@ -50,11 +50,11 @@ export const CustomCards = ({
         <p className="card_date">{date}</p>
       </div>
 
-      <div class="px-4  flex justify-center pt-6 pb-2">
+      <div className="px-4  flex justify-center pt-6 pb-2">
         <button
           data-modal-target="defaultModal"
           data-modal-toggle="defaultModal"
-          class="bg-teal-900 text-white px-4 py-2 rounded-md m-2"
+          className="bg-teal-900 text-white px-4 py-2 rounded-md m-2"
           type="button"
           onClick={() => {
             setEditShowModal(true);

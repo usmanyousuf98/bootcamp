@@ -5,13 +5,24 @@ import { useEffect, useState } from "react";
 import CustomCards from "../components/customComponent/CustomCards";
 import Modal from "./Modal";
 import { useFetchData } from "../assets/hooks/hooks";
+import { signOut } from "../assets/token";
+import { useNavigate, useNavigation } from "react-router-dom";
 
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const { isLoading, error, data } = useFetchData();
+  const navigate = useNavigate();
   // const [fetchedData, setFetchedData] = useState(data);
-
+  const handleRemove = () => {
+    try {
+      signOut();
+      location.replace("/");
+      //setTimeout(navigate("/"), 1000);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const Menus = [
     { title: "Home", src: "Chart_fill" },
     { title: "Profile", src: "User" },
@@ -66,17 +77,17 @@ const Sidebar = () => {
 
       <div className="h-screen flex-1 ">
         <div className="grid grid-cols-6 gap-4 bg-green-400">
-          <div class="col-start-1 col-end-3 ...">
+          <div className="col-start-1 col-end-3 ...">
             <h1 className="text-3xl font-bold  text-white p-3 pt-4 ">
               Dashboard
             </h1>
           </div>
-          <div class="col-end-7 col-span-2 ... flex justify-end p-2">
+          <div className="col-end-7 col-span-2 ... flex justify-end p-2">
             <button
               className="bg-teal-900 text-white px-4 py-2 rounded-md m-2 flex "
-              onClick={() => handleRemove(item.id)}
+              onClick={handleRemove}
             >
-              LogOut
+              Logout
             </button>
           </div>
         </div>
@@ -84,7 +95,7 @@ const Sidebar = () => {
           <button
             data-modal-target="defaultModal"
             data-modal-toggle="defaultModal"
-            class="grid-rows-3	border-teal-900
+            className="grid-rows-3	border-teal-900
               border-2 w-40 m-4 py-2 text-white  bg-teal-900 rounded-3xl transition-colors duration-300 hover:bg-teal-500"
             type="button"
             onClick={() => {
@@ -110,7 +121,7 @@ const Sidebar = () => {
           {/* <Modals /> */}
 
           {/* <Card /> */}
-          <div class="grid gap-2 sm:grid-cols-2 sm:gap-2">
+          <div className="grid gap-2 sm:grid-cols-2 sm:gap-2">
             <CustomCards
               title="Cycling Adventure"
               description="Explored scenic routes for 20 miles"

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import loginImg from "../assets/login.png";
 import Logo from "../assets/logo.png";
-import CustomInput from "./customComponent/customInput";
+import CustomInput from "./customComponent/CustomInput";
 import { useNavigate } from "react-router-dom";
 import { useSignUp } from "../assets/hooks/hooks";
 import { storeToken } from "../assets/token";
@@ -129,7 +129,7 @@ export default function Signup() {
   // };
 
   return (
-    <div class="flex h-screen w-full items-center justify-center bg-cover bg-no-repeat bg-[url('./assets/login.png')]">
+    <div className="flex h-screen w-full items-center justify-center bg-cover bg-no-repeat bg-[url('./assets/login.png')]">
       <div className="rounded-xl bg-gray-600 bg-opacity-50 px-16 py-10 shadow-lg backdrop-blur-md max-sm:px-8">
         <div>
           <div className="mb-4 flex flex-col items-center">
@@ -173,7 +173,7 @@ export default function Signup() {
               handleChange={(text) => handleConfirmPasswordChange(text)}
             />
 
-            <div class="mt-8 flex justify-center text-lg text-black">
+            <div className="mt-8 flex justify-center text-lg text-black">
               <button
                 type="SignUp"
                 className="w-40 my-3 py-2 text-white  bg-teal-900 rounded-3xl transition-colors duration-300 hover:bg-teal-500"

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import loginImg from "../assets/login.png";
 import Logo from "../assets/logo.png";
-import CustomInput from "./customComponent/customInput";
+import CustomInput from "./customComponent/CustomInput";
 import { useLogin } from "../assets/hooks/hooks";
 import { storeToken } from "../assets/token";
 
@@ -12,7 +12,7 @@ export default function Signin() {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const signInMutation = useLogin();
-  const navigation = useNavigate();
+  //const navigation = useNavigate();
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -62,7 +62,7 @@ export default function Signin() {
 
       setEmail("");
       setPassword("");
-      navigation("/Sidebar");
+      location.replace("/Sidebar");
     } catch (error) {
       console.log("login error", error);
     }
@@ -79,7 +79,7 @@ export default function Signin() {
   };
 
   return (
-    <div class="flex h-screen w-full items-center justify-center bg-cover bg-no-repeat bg-[url('./assets/login.png')]">
+    <div className="flex h-screen w-full items-center justify-center bg-cover bg-no-repeat bg-[url('./assets/login.png')]">
       <div className="rounded-xl bg-gray-600 bg-opacity-50 px-16 py-10 shadow-lg backdrop-blur-md max-sm:px-8">
         <div>
           <div className="mb-4 flex flex-col items-center">

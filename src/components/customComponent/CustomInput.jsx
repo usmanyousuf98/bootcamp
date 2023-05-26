@@ -2,7 +2,7 @@ import React from "react";
 
 const CustomInput = ({ heading, type, placeholder, value, handleChange }) => {
   return (
-    <div class="mb-2 text-lg flex flex-col text-teal-200 py-2">
+    <div className="mb-2 text-lg flex flex-col text-teal-200 py-2">
       <label className="  text-white">
         <b>{heading}</b>
       </label>
