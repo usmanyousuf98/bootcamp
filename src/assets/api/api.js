@@ -58,6 +58,25 @@ const deleteDataApi = async (id) => {
     return data;
   });
 };
+
+const activityUpdateApi = async (
+  id,
+  name,
+  description,
+  activityType,
+  duration,
+  date
+) => {
+  return instanceFetch({
+    url: "/api/v1/recipes/update",
+    method: "put",
+    data: { id, name, description, activityType, duration, date },
+  }).then((data) => {
+    console.log(data);
+    return data;
+  });
+};
+
 //   e.preventDefault();
 
 // try {
@@ -74,4 +93,11 @@ const deleteDataApi = async (id) => {
 //   console.error(error);
 // }
 
-export { loginApi, signUpApi, fetchDataApi, activityCreateApi, deleteDataApi };
+export {
+  loginApi,
+  signUpApi,
+  fetchDataApi,
+  activityCreateApi,
+  deleteDataApi,
+  activityUpdateApi,
+};

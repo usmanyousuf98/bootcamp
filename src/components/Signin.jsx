@@ -42,8 +42,6 @@ export default function Signin() {
   };
 
   const handleLogin = async () => {
-    const errors = {};
-    // validateName();
     validateEmail();
     validatePassword();
     if (!emailError && !passwordError) {
@@ -64,14 +62,9 @@ export default function Signin() {
 
       setEmail("");
       setPassword("");
-      // setConfrimPassword("");
-      //setName("");
-      // <Link to="/Sidebar"></Link>;
-      console.log("joisjo");
-
       navigation("/Sidebar");
     } catch (error) {
-      console.log("logoniin", error);
+      console.log("login error", error);
     }
   };
   const onErrorCb = async (error) => {
@@ -79,11 +72,6 @@ export default function Signin() {
     // // if (error?.code === signUpErrorCode.fieldExists) {
     // //   error?.message?.signup_email
     // //     ? setError('email', {message: theme?.strings?.registeredEmail})
-    // //     : '';
-    // //   error?.message?.field_19
-    // //     ? setError('phoneNumber', {
-    // //         message: error?.message?.field_19,
-    // //       })
     // //     : '';
     // } else {
     //   setFormError(Object.values(error?.response?.data?.message)[0]);
@@ -118,12 +106,12 @@ export default function Signin() {
               handleChange={(text) => handlePasswordChange(text)}
             />
 
-            <div className="flex justify-between text-white py-2">
+            {/* <div className="flex justify-between text-white py-2">
               <p className="flex">
                 <input className="mr-2" type="checkbox" /> Remember me{" "}
               </p>
               <p>Forget Password? </p>
-            </div>
+            </div> */}
             <div className=" flex justify-center text-lg text-black">
               {/* <Link to="/Sidebar"> */}
               <button

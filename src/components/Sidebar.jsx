@@ -10,6 +10,7 @@ const Sidebar = () => {
   const [open, setOpen] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const { isLoading, error, data } = useFetchData();
+  // const [fetchedData, setFetchedData] = useState(data);
 
   const Menus = [
     { title: "Home", src: "Chart_fill" },
@@ -109,25 +110,27 @@ const Sidebar = () => {
           {/* <Modals /> */}
 
           {/* <Card /> */}
-          <CustomCards
-            title="Cycling Adventure"
-            description="Explored scenic routes for 20 miles"
-            activityType="Bicycle Ride"
-            duration="1 hour"
-            date="2023-02-11"
-          />
-
-          {data.map((item, i) => (
+          <div class="grid gap-2 sm:grid-cols-2 sm:gap-2">
             <CustomCards
-              key={i}
-              id={item?._id}
-              description={item.description}
-              title={item.name}
-              activityType={item.activityType}
-              duration={item.duration}
-              date={item.date}
+              title="Cycling Adventure"
+              description="Explored scenic routes for 20 miles"
+              activityType="Bicycle Ride"
+              duration="1 hour"
+              date="2023-02-11"
             />
-          ))}
+
+            {data.map((item, i) => (
+              <CustomCards
+                key={i}
+                id={item?._id}
+                description={item.description}
+                title={item.name}
+                activityType={item.activityType}
+                duration={item.duration}
+                date={item.date}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>

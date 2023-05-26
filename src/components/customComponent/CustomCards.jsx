@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Modal from "../Modal";
 import { useActivityDelete } from "../../assets/hooks/hooks";
+import CustomEditModal from "./CustomEditModal";
 
 export const CustomCards = ({
   id,
@@ -12,6 +13,7 @@ export const CustomCards = ({
   onDelete,
 }) => {
   const [showModal, setShowModal] = useState(false);
+  const [showEidtModal, setEditShowModal] = useState(false);
   const deleteFn = useActivityDelete();
 
   const onSuccessCb = async (data) => {
@@ -55,11 +57,24 @@ export const CustomCards = ({
           class="bg-teal-900 text-white px-4 py-2 rounded-md m-2"
           type="button"
           onClick={() => {
-            setShowModal(true);
+            setEditShowModal(true);
           }}
         >
           EDIT
         </button>
+        {showEidtModal ? (
+          <>
+            <CustomEditModal
+              callb={setEditShowModal}
+              title={title}
+              id={id}
+              description={description}
+              duration={duration}
+              activityType={activityType}
+              date={date}
+            />
+          </>
+        ) : null}
         {showModal ? (
           <>
             <Modal callb={setShowModal} />

@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import {
   activityCreateApi,
+  activityUpdateApi,
   deleteDataApi,
   fetchDataApi,
   loginApi,
@@ -33,6 +34,51 @@ const useLogin = () => {
     },
   });
   return useMutation("UseLoginApi");
+};
+
+const useUpadate = () => {
+  const queryClient = useQueryClient();
+  queryClient.setMutationDefaults("useUpadateApi", {
+    mutationFn: ({
+      id,
+      name,
+
+      eDescription,
+      eActivityType,
+      eDuration,
+      date,
+    }) =>
+      activityUpdateApi(
+        id,
+        name,
+
+        eDescription,
+        eActivityType,
+        eDuration,
+        date
+      ),
+    onMutate: async (variables) => {
+      queryClient.invalidateQueries("useFetchDataApi");
+      const { onSuccessCb, onErrorCb } = variables;
+      return { onSuccessCb, onErrorCb };
+    },
+    onSuccess: (result, variables, context) => {
+      if (context.onSuccessCb) {
+        context.onSuccessCb(result);
+        console.log(
+          "context.onSuccessCb(result);",
+          context.onSuccessCb(result)
+        );
+      }
+    },
+    onError: (error, variables, context) => {
+      if (context.onErrorCb) {
+        console.log("onErrorCb", context.onErrorCb(error));
+        context.onErrorCb(error);
+      }
+    },
+  });
+  return useMutation("useUpadateApi");
 };
 
 const useSignUp = () => {
@@ -69,7 +115,7 @@ const useFetchData = () => {
   return useQuery(["useFetchDataApi"], () => fetchDataApi(), {
     select: (data) => data,
     // refetchOnMount: true,
-    // refetchOnWindowFocus: true,
+    refetchOnWindowFocus: true,
   });
 };
 
@@ -80,6 +126,7 @@ const useActivityCreate = () => {
       activityCreateApi(name, description, activityType, duration),
     // console.log("sname, email, confirmPassword"),
     onMutate: async (variables) => {
+      queryClient.invalidateQueries("useFetchDataApi");
       const { onSuccessCb, onErrorCb } = variables;
       return { onSuccessCb, onErrorCb };
     },
@@ -107,6 +154,7 @@ const useActivityDelete = () => {
       return { onSuccessCb, onErrorCb };
     },
     onSuccess: (result, variables, context) => {
+      queryClient.invalidateQueries("useFetchDataApi");
       // const { success } = result;
       //   if (!success) {
       //     // API returns status 200 with form errors
@@ -132,4 +180,5 @@ export {
   useFetchData,
   useActivityCreate,
   useActivityDelete,
+  useUpadate,
 };
