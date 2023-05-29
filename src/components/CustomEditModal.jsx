@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import CustomInput from "./CustomInput";
-import { useUpadate } from "../../assets/hooks/hooks";
+import CustomInput from "./customComponent/customInput";
+import { useUpadate } from "../assets/hooks/hooks";
 
 export default function CustomEditModal({
   callb,
@@ -16,10 +16,17 @@ export default function CustomEditModal({
   const [eDescription, setDescription] = useState(description);
   const [eDuration, setDuration] = useState(duration);
   const [eActivityType, setActivityType] = useState(activityType);
+  const [nameError, setNameError] = useState("");
+  const [durationError, setDurationError] = useState("");
+  const [descriptionError, setDescriptonError] = useState("");
+  const [valid, setValid] = useState(true);
   const UpdateFn = useUpadate();
 
   const handleNameChange = (e) => {
     setName(e.target.value);
+    if (name == null) {
+      console.log("erorrrrr");
+    }
   };
   const handleDescriptionChange = (e) => {
     setDescription(e.target.value);
@@ -28,7 +35,18 @@ export default function CustomEditModal({
     setActivityType(e.target.value);
   };
   const handleDurationChange = (e) => {
-    setDuration(e.target.value);
+    const inputValue = e.target.value;
+
+    if (
+      /^\d+$/.test(inputValue) &&
+      inputValue >= 1 &&
+      inputValue <= 60 &&
+      !inputValue.includes("-")
+    ) {
+      setDuration(inputValue);
+    } else {
+      setDuration("");
+    }
   };
 
   const onSuccessCb = async (data) => {
@@ -53,18 +71,36 @@ export default function CustomEditModal({
   };
 
   const handelAddActivity = () => {
-    const mutationArgs = {
-      id,
-      name,
-      title,
-      eDescription,
-      eActivityType,
-      eDuration,
-      date,
-      onSuccessCb,
-      onErrorCb,
-    };
-    UpdateFn.mutate(mutationArgs);
+    // Validate name
+    if (name.trim() === "") {
+      setNameError("Name isxx required");
+      setValid(false);
+    }
+
+    // Validate duration
+    if (eDescription.trim() === "" || isNaN(eDescription)) {
+      setDescriptonError("Duration must be a valid number");
+      setValid(false);
+    }
+    if (duration !== "" || isNaN(eDuration)) {
+      setDurationError("Duration must be a valid number");
+      setValid(false);
+    }
+
+    if (valid == true) {
+      const mutationArgs = {
+        id,
+        name,
+        title,
+        eDescription,
+        eActivityType,
+        eDuration,
+        date,
+        onSuccessCb,
+        onErrorCb,
+      };
+      UpdateFn.mutate(mutationArgs);
+    }
   };
 
   //props.ca
@@ -81,7 +117,7 @@ export default function CustomEditModal({
           </h2>
 
           <form action="#">
-            <div className="grid gap-2 sm:grid-cols-2 sm:gap-2">
+            <div className="grid gap-2 sm:grid-cols-2 sm:gap-2 white">
               <CustomInput
                 type="text"
                 placeholder="Name"
@@ -90,8 +126,8 @@ export default function CustomEditModal({
                 value={name}
                 handleChange={(text) => handleNameChange(text)}
               />
-
               <div className="sm:col-span-2">
+                {/* {nameError && <p className="error">{nameError}</p>} */}
                 <label
                   for="description"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -108,6 +144,7 @@ export default function CustomEditModal({
                   value={eDescription}
                 ></textarea>
               </div>
+              {/* {descriptionError && <p className="error">{descriptionError}</p>} */}
 
               <div>
                 <label
@@ -122,8 +159,9 @@ export default function CustomEditModal({
                   required
                   onChange={handleActivityTypeChange}
                   value={eActivityType}
+                  placeholder="Select category"
                 >
-                  <option selected="">Select category</option>
+                  {/* <option selected="">Select category</option> */}
                   <option value="Run" required>
                     Run
                   </option>
@@ -158,7 +196,7 @@ export default function CustomEditModal({
            border-2 w-40 m-4 text-white  bg-teal-900 rounded-3xl font-medium "
               onClick={handelAddActivity}
             >
-              Add Activity
+              Edit Activity
             </button>
 
             <button

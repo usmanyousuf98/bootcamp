@@ -31,7 +31,7 @@ const activityCreateApi = async (
   date
 ) => {
   return instanceFetch({
-    url: "/api/v1/recipes/create",
+    url: "/api/v1/activity/create",
     method: "post",
     data: { name, description, activityType, duration },
   }).then((data) => {
@@ -42,7 +42,7 @@ const activityCreateApi = async (
 
 const fetchDataApi = async () => {
   return instanceFetch({
-    url: "/api/v1/recipes",
+    url: "/api/v1/activity",
     method: "get",
   }).then((data) => {
     return data;
@@ -51,7 +51,7 @@ const fetchDataApi = async () => {
 
 const deleteDataApi = async (id) => {
   return instanceFetch({
-    url: "/api/v1/recipes/delete",
+    url: "/api/v1/activity/delete",
     method: "delete",
     data: { id },
   }).then((data) => {
@@ -68,7 +68,7 @@ const activityUpdateApi = async (
   date
 ) => {
   return instanceFetch({
-    url: "/api/v1/recipes/update",
+    url: "/api/v1/activity/update",
     method: "put",
     data: { id, name, description, activityType, duration, date },
   }).then((data) => {

@@ -17,7 +17,7 @@ const Sidebar = () => {
   const { error, data, isLoading } = useFetchData();
   const navigate = useNavigate();
   // const [fetchedData, setFetchedData] = useState(data);
-  const notify = () => toast("Loading...");
+
   const handleRemove = () => {
     try {
       signOut();
@@ -27,11 +27,32 @@ const Sidebar = () => {
       console.log(error);
     }
   };
-  const Menus = [
-    { title: "Home", src: "Chart_fill" },
-    { title: "Profile", src: "User" },
-    { title: "About", src: "Chart_Fill" },
-  ];
+  const Menus = [{ title: "Home", src: "Chart_fill" }];
+  if (isLoading == true) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <Oval
+          height={80}
+          width={80}
+          color="#4fa94d"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+          ariaLabel="oval-loading"
+          secondaryColor="#4fa94d"
+          strokeWidth={2}
+          strokeWidthSecondary={2}
+        />
+      </div>
+    ); // Show a loading indicator
+  }
   if (isLoading == true) {
     return (
       <div

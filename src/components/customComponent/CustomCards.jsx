@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Modal from "../Modal";
 import { useActivityDelete } from "../../assets/hooks/hooks";
-import CustomEditModal from "./CustomEditModal";
+import CustomEditModal from "../CustomEditModal";
 
 export const CustomCards = ({
   id,
@@ -14,8 +14,15 @@ export const CustomCards = ({
 }) => {
   const [showModal, setShowModal] = useState(false);
   const [showEidtModal, setEditShowModal] = useState(false);
+  const [open, setOpen] = useState(false);
   const deleteFn = useActivityDelete();
 
+  const handleClickToOpen = () => {
+    setOpen(true);
+  };
+  const handleToClose = () => {
+    setOpen(false);
+  };
   const onSuccessCb = async (data) => {
     try {
       // <Link to="/Sidebar"></Link>;
@@ -43,11 +50,11 @@ export const CustomCards = ({
     <div className="max-w-sm rounded overflow-hidden shadow-lg bg-slate-300 m-6 grid ">
       <div className="px-4 pt-4">
         {/* <div className="bg-white rounded-lg shadow-md p-4"> */}
-        <h2 className="card_title font-bold">{title}</h2>
-        <p className="card_description">{description}</p>
-        <p className="activity_type">{activityType}</p>
-        <p className="card_duration">{duration}</p>
-        <p className="card_date">{date}</p>
+        <h2 className="card_title font-bold">name : {title}</h2>
+        <p className="card_description font-bold">description: {description}</p>
+        <p className="activity_type font-bold">activity: {activityType}</p>
+        <p className="card_duration font-bold">duration: {duration} minutes</p>
+        <p className="card_date font-bold">date: {date} </p>
       </div>
 
       <div className="px-4  flex justify-center pt-6 pb-2">
@@ -60,7 +67,7 @@ export const CustomCards = ({
             setEditShowModal(true);
           }}
         >
-          EDIT
+          Edit
         </button>
         {showEidtModal ? (
           <>
@@ -81,12 +88,48 @@ export const CustomCards = ({
           </>
         ) : null}
 
-        <button
-          className="bg-teal-900 text-white px-4 py-2 rounded-md m-2"
-          onClick={() => handleDelete()}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
         >
-          Delete
-        </button>
+          <button
+            class="bg-teal-900 text-white px-4 py-2 rounded-md m-2"
+            type="button"
+            onClick={handleClickToOpen}
+          >
+            Delete
+          </button>
+          <dialog
+            class="bg-teal-900 text-white rounded-md items-center		 "
+            open={open}
+            onClose={handleToClose}
+          >
+            <h4 class="  pb-5 ">Do you want to delete this avtivity?</h4>
+
+            <dialogactions className=" flex justify-center ">
+              <button
+                class="bg-white text-teal-900 px-4 py-2 rounded-md m-2"
+                onClick={() => handleDelete()}
+              >
+                Yes
+              </button>
+
+              <button
+                class="bg-white text-teal-900 px-4 py-2 rounded-md m-2"
+                onClick={handleToClose}
+                color="primary"
+                autoFocus
+              >
+                No
+              </button>
+            </dialogactions>
+          </dialog>
+        </div>
+
+        <div></div>
       </div>
     </div>
   );

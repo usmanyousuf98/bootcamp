@@ -8,6 +8,10 @@ export default function Modal({ callb }) {
   const [description, setDescription] = useState("");
   const [duration, setDuration] = useState("");
   const [activityType, setActivityType] = useState("");
+  const [nameError, setNameError] = useState("");
+  const [durationError, setDurationError] = useState("");
+  const [descriptionError, setDescriptonError] = useState("");
+  const [valid, setValid] = useState(true);
   const fetchActivityMutation = useActivityCreate();
 
   const handleNameChange = (e) => {
@@ -20,7 +24,18 @@ export default function Modal({ callb }) {
     setActivityType(e.target.value);
   };
   const handleDurationChange = (e) => {
-    setDuration(e.target.value);
+    const inputValue = e.target.value;
+
+    if (
+      /^\d+$/.test(inputValue) &&
+      inputValue >= 1 &&
+      inputValue <= 60 &&
+      !inputValue.includes("-")
+    ) {
+      setDuration(inputValue);
+    } else {
+      setDuration("");
+    }
   };
 
   const onSuccessCb = async (data) => {
@@ -44,16 +59,52 @@ export default function Modal({ callb }) {
     console.log(error);
   };
 
-  const handelAddActivity = () => {
-    const mutationArgs = {
-      name,
-      description,
-      activityType,
-      duration,
-      onSuccessCb,
-      onErrorCb,
-    };
-    fetchActivityMutation.mutate(mutationArgs);
+  const validate = () => {
+    let isValid = true;
+
+    if (name.trim() === "") {
+      setNameError("Enter a valid name");
+      isValid = false;
+    } else {
+      setNameError("");
+    }
+
+    if (description.trim() === "" || isNaN(description)) {
+      setDescriptonError("Duration must be a valid number");
+      isValid = false;
+    } else {
+      setDescriptonError("");
+    }
+
+    if (isNaN(duration)) {
+      setDurationError("Duration must be a valid number");
+      isValid = false;
+    } else {
+      setDurationError("");
+    }
+
+    setValid(isValid);
+  };
+  const handelAddActivity = (e) => {
+    e.preventDefault();
+    // let isValid = true;
+    // setValid();
+    // Validate name
+    // Validate name
+    validate();
+
+    console.log("valid: ", valid);
+    if (valid) {
+      const mutationArgs = {
+        name,
+        description,
+        activityType,
+        duration,
+        onSuccessCb,
+        onErrorCb,
+      };
+      fetchActivityMutation.mutate(mutationArgs);
+    }
   };
 
   //props.ca
@@ -70,7 +121,7 @@ export default function Modal({ callb }) {
           </h2>
 
           <form action="#">
-            <div className="grid gap-2 sm:grid-cols-2 sm:gap-2">
+            <div className="grid gap-2 sm:grid-cols-2 sm:gap-2 dark:text-white">
               <CustomInput
                 type="text"
                 placeholder="Name"
@@ -80,6 +131,7 @@ export default function Modal({ callb }) {
               />
 
               <div className="sm:col-span-2">
+                {nameError && <p className="error">{nameError}</p>}
                 <label
                   for="description"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -108,8 +160,9 @@ export default function Modal({ callb }) {
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   required
                   onChange={handleActivityTypeChange}
+                  placeholder="Select"
                 >
-                  <option selected="">Select category</option>
+                  <option value="" disabled></option>
                   <option value="Run" required>
                     Run
                   </option>
@@ -133,6 +186,7 @@ export default function Modal({ callb }) {
                 placeholder="Duration"
                 name="time_duration"
                 heading="Duration"
+                required
                 handleChange={(text) => handleDurationChange(text)}
               />
             </div>

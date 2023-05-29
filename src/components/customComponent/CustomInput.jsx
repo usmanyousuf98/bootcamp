@@ -11,7 +11,7 @@ const CustomInput = ({ heading, type, placeholder, value, handleChange }) => {
         placeholder={placeholder}
         value={value}
         className="rounded-3xl border-none  bg-teal-900 bg-opacity-70 px-6 py-2 text-center text-inherit placeholder-slate-200 shadow-lg outline-none backdrop-blur-md"
-        required
+        required={true}
         onChange={(text) => handleChange(text)}
       />
     </div>

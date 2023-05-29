@@ -11,6 +11,7 @@ export default function Signin() {
   const [password, setPassword] = useState();
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [apiError, setApiError] = useState("");
   const signInMutation = useLogin();
   const navigation = useNavigate();
 
@@ -29,8 +30,10 @@ export default function Signin() {
   };
 
   const validatePassword = () => {
-    if (password.length < 8) {
-      setPasswordError("Password must be at least 8 characters long");
+    if (32 > password.length < 8) {
+      setPasswordError(
+        "Password must be at least 8 characters long less then 32."
+      );
     } else {
       setPasswordError("");
     }
@@ -69,7 +72,11 @@ export default function Signin() {
     }
   };
   const onErrorCb = async (error) => {
-    console.log(error);
+    if (error?.response?.status == 401) {
+      setApiError("Invalid email or password");
+      // console.log("Invalid email or password");
+    }
+    // console.log(error?.response?.status);
   };
 
   const token = localStorage.getItem("@authToken");
@@ -106,7 +113,7 @@ export default function Signin() {
               heading="Enter Password"
               handleChange={(text) => handlePasswordChange(text)}
             />
-
+            {apiError && <p className="error">{apiError}</p>}
             {/* <div className="flex justify-between text-white py-2">
                 <p className="flex">
                   <input className="mr-2" type="checkbox" /> Remember me{" "}

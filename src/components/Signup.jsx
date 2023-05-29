@@ -8,8 +8,6 @@ import { useSignUp } from "../assets/hooks/hooks";
 import { storeToken } from "../assets/token";
 
 export default function Signup() {
-  const navigation = useNavigate();
-
   const [sname, setName] = useState("");
   const [email, setEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -17,6 +15,7 @@ export default function Signup() {
   const [nameError, setNameError] = useState(" ");
   const [emailError, setEmailError] = useState(" ");
   const [passwordError, setPasswordError] = useState(" ");
+  const [apiError, setApiError] = useState("");
   const signupMutation = useSignUp();
 
   const validateName = () => {
@@ -37,7 +36,7 @@ export default function Signup() {
   };
 
   const validatePassword = () => {
-    if (newPassword.length < 8) {
+    if (32 > newPassword.length < 8) {
       setPasswordError("Password must be at least 8 characters long");
     } else if (newPassword != confirmPassword) {
       setPasswordError("Password must matchg");
@@ -72,18 +71,19 @@ export default function Signup() {
       setName("");
 
       location.replace("/Sidebar");
-      // navigation("/Sidebar");
     } catch (error) {
-      console.log("log errorrr", error);
+      // console.log("log errorrr", error);
+      setApiError(error);
     }
   };
 
   const onErrorCb = async (error) => {
-    console.log(error);
+    // console.log("eEEORRR", error?.response?.data?.message);
+    setApiError(error?.response?.data?.message);
   };
 
-  const handleSignUp = async (data) => {
-    const errors = {};
+  const handleSignUp = async (e) => {
+    e.preventDefault();
     validateName();
     validateEmail();
     validatePassword();
@@ -171,7 +171,8 @@ export default function Signup() {
               heading="Confirm Password"
               handleChange={(text) => handleConfirmPasswordChange(text)}
             />
-
+            {apiError && <p className="error">{apiError}</p>}
+            {signupMutation.isLoading && <p className="error"> loading...</p>}
             <div className="mt-8 flex justify-center text-lg text-black">
               <button
                 type="SignUp"
