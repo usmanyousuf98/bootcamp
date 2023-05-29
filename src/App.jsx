@@ -1,5 +1,3 @@
-// import { useState } from "react";
-// import "./App.css";
 import {
   BrowserRouter as Router,
   Routes,
@@ -10,35 +8,39 @@ import {
 import Signin from "./components/Signin";
 import Signup from "./components/Signup";
 import React from "react";
-import ReactDOM from "react-dom/client";
-// import App from './App.jsx'
+
 import Sidebar from "./components/Sidebar.jsx";
 import "./index.css";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { getToken } from "./assets/token";
+import ProtectedRoutes from "./components/ProtectedRoutes";
+import Profile from "./components/Profile.jsx";
 
 export const routes = createBrowserRouter([
   { path: "/", element: <Signin /> },
   { path: "/Signup", element: <Signup /> },
-]);
 
-export const protectedRoutes = createBrowserRouter([
-  { path: "/Sidebar", element: <Sidebar /> },
+  {
+    path: "/Sidebar",
+    element: <ProtectedRoutes />,
+    children: [
+      {
+        index: true,
+        element: <Sidebar />,
+      },
+      {
+        path: "Profile",
+        element: <Profile />,
+      },
+    ],
+  },
 ]);
 
 const queryClient = new QueryClient();
 
-const get_Token = async () => {
-  try {
-    let value = await getToken;
-    if (value !== null) {
-      return value;
-    }
-  } catch (e) {}
-};
 export default function App() {
   const Token = localStorage.getItem("@authToken");
-  //console.log("Token", Token);
+
   return (
     <>
       <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
@@ -52,7 +54,7 @@ export default function App() {
         </Routes>
       </Router> */}
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={Token === null ? routes : protectedRoutes} />
+        <RouterProvider router={routes} />
       </QueryClientProvider>
     </>
   );

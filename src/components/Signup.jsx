@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import loginImg from "../assets/login.png";
 import Logo from "../assets/logo.png";
-import CustomInput from "./customComponent/CustomInput";
+import CustomInput from "./customComponent/customInput";
 import { useNavigate } from "react-router-dom";
 import { useSignUp } from "../assets/hooks/hooks";
 import { storeToken } from "../assets/token";
@@ -14,9 +14,9 @@ export default function Signup() {
   const [email, setEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfrimPassword] = useState("");
-  const [nameError, setNameError] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
+  const [nameError, setNameError] = useState(" ");
+  const [emailError, setEmailError] = useState(" ");
+  const [passwordError, setPasswordError] = useState(" ");
   const signupMutation = useSignUp();
 
   const validateName = () => {
@@ -70,10 +70,9 @@ export default function Signup() {
       setNewPassword("");
       setConfrimPassword("");
       setName("");
-      // <Link to="/Sidebar"></Link>;
-      console.log("joisjo");
 
-      navigation("/Sidebar");
+      location.replace("/Sidebar");
+      // navigation("/Sidebar");
     } catch (error) {
       console.log("log errorrr", error);
     }

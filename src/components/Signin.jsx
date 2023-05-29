@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import loginImg from "../assets/login.png";
 import Logo from "../assets/logo.png";
-import CustomInput from "./customComponent/CustomInput";
+import CustomInput from "./customComponent/customInput";
 import { useLogin } from "../assets/hooks/hooks";
 import { storeToken } from "../assets/token";
 
@@ -12,7 +12,7 @@ export default function Signin() {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const signInMutation = useLogin();
-  //const navigation = useNavigate();
+  const navigation = useNavigate();
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -41,7 +41,8 @@ export default function Signin() {
     console.log(password);
   };
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
     validateEmail();
     validatePassword();
     if (!emailError && !passwordError) {
@@ -62,21 +63,21 @@ export default function Signin() {
 
       setEmail("");
       setPassword("");
-      location.replace("/Sidebar");
+      navigation("/Sidebar");
     } catch (error) {
       console.log("login error", error);
     }
   };
   const onErrorCb = async (error) => {
     console.log(error);
-    // // if (error?.code === signUpErrorCode.fieldExists) {
-    // //   error?.message?.signup_email
-    // //     ? setError('email', {message: theme?.strings?.registeredEmail})
-    // //     : '';
-    // } else {
-    //   setFormError(Object.values(error?.response?.data?.message)[0]);
-    // }
   };
+
+  const token = localStorage.getItem("@authToken");
+  // const isLoggedIn = !token;
+
+  if (token != null) {
+    return <Navigate to="/Sidebar" />;
+  }
 
   return (
     <div className="flex h-screen w-full items-center justify-center bg-cover bg-no-repeat bg-[url('./assets/login.png')]">
@@ -85,7 +86,7 @@ export default function Signin() {
           <div className="mb-4 flex flex-col items-center">
             <img src={Logo} />
           </div>
-          <form action="#" className=" flex flex-col item-center ">
+          <form className=" flex flex-col item-center ">
             <h2 className="text-4xl font-bold text-center text-white">
               SignIn
             </h2>
@@ -107,11 +108,11 @@ export default function Signin() {
             />
 
             {/* <div className="flex justify-between text-white py-2">
-              <p className="flex">
-                <input className="mr-2" type="checkbox" /> Remember me{" "}
-              </p>
-              <p>Forget Password? </p>
-            </div> */}
+                <p className="flex">
+                  <input className="mr-2" type="checkbox" /> Remember me{" "}
+                </p>
+                <p>Forget Password? </p>
+              </div> */}
             <div className=" flex justify-center text-lg text-black">
               {/* <Link to="/Sidebar"> */}
               <button

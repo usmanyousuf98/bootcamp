@@ -115,7 +115,7 @@ const useFetchData = () => {
   return useQuery(["useFetchDataApi"], () => fetchDataApi(), {
     select: (data) => data,
     // refetchOnMount: true,
-    refetchOnWindowFocus: true,
+    //refetchOnWindowFocus: true,
   });
 };
 
