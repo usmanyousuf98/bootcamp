@@ -16,10 +16,10 @@ export default function CustomEditModal({
   const [eDescription, setDescription] = useState(description);
   const [eDuration, setDuration] = useState(duration);
   const [eActivityType, setActivityType] = useState(activityType);
-  const [nameError, setNameError] = useState("");
-  const [durationError, setDurationError] = useState("");
-  const [descriptionError, setDescriptonError] = useState("");
-  const [valid, setValid] = useState(true);
+  const [nameError, setNameError] = useState(" ");
+  const [durationError, setDurationError] = useState(" ");
+  const [descriptionError, setDescriptonError] = useState(" ");
+
   const UpdateFn = useUpadate();
 
   const handleNameChange = (e) => {
@@ -70,24 +70,37 @@ export default function CustomEditModal({
     console.log(error);
   };
 
-  const handelAddActivity = () => {
-    // Validate name
-    if (name.trim() === "") {
-      setNameError("Name isxx required");
-      setValid(false);
+  const validateName = () => {
+    if (name.length < 8) {
+      setNameError("Enter a valid name");
+    } else {
+      setNameError("");
     }
-
-    // Validate duration
-    if (eDescription.trim() === "" || isNaN(eDescription)) {
-      setDescriptonError("Duration must be a valid number");
-      setValid(false);
+  };
+  const validateDescription = () => {
+    if (eDescription.length < 10) {
+      setDescriptonError("Description must be more than 10");
+    } else {
+      setDescriptonError("");
     }
-    if (duration !== "" || isNaN(eDuration)) {
+  };
+  const validateDuration = () => {
+    if (isNaN(eDuration)) {
       setDurationError("Duration must be a valid number");
-      setValid(false);
+    } else {
+      setDurationError("");
     }
+  };
 
-    if (valid == true) {
+  const handelAddActivity = (e) => {
+    e.preventDefault();
+    // Validate name
+    validateName();
+    validateDescription();
+    validateDuration();
+    console.log("!nameError", nameError, descriptionError, durationError);
+
+    if (nameError == "" && descriptionError == "" && durationError == "") {
       const mutationArgs = {
         id,
         name,

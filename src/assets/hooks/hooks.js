@@ -155,12 +155,6 @@ const useActivityDelete = () => {
     },
     onSuccess: (result, variables, context) => {
       queryClient.invalidateQueries("useFetchDataApi");
-      // const { success } = result;
-      //   if (!success) {
-      //     // API returns status 200 with form errors
-      //     // Manual handling with success flag
-      //     throw new Error(result);
-      //   }
       if (context.onSuccessCb) {
         context.onSuccessCb(result);
       }

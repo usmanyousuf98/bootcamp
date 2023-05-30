@@ -58,43 +58,36 @@ export default function Modal({ callb }) {
   const onErrorCb = async (error) => {
     console.log(error);
   };
-
-  const validate = () => {
-    let isValid = true;
-
-    if (name.trim() === "") {
+  const validateName = () => {
+    if (name.length < 8) {
       setNameError("Enter a valid name");
-      isValid = false;
     } else {
       setNameError("");
     }
-
-    if (description.trim() === "" || isNaN(description)) {
-      setDescriptonError("Duration must be a valid number");
-      isValid = false;
+  };
+  const validateActivity = () => {
+    if (description.length < 10 || isNaN(description)) {
+      setDescriptonError("Description must be more than 10");
     } else {
       setDescriptonError("");
     }
-
+  };
+  const validateDuration = () => {
     if (isNaN(duration)) {
       setDurationError("Duration must be a valid number");
-      isValid = false;
     } else {
       setDurationError("");
     }
-
-    setValid(isValid);
   };
+
   const handelAddActivity = (e) => {
     e.preventDefault();
-    // let isValid = true;
-    // setValid();
-    // Validate name
-    // Validate name
-    validate();
 
-    console.log("valid: ", valid);
-    if (valid) {
+    validateName();
+    validateActivity();
+    validateDuration();
+
+    if (!nameError && !descriptionError && !durationError) {
       const mutationArgs = {
         name,
         description,
@@ -162,7 +155,7 @@ export default function Modal({ callb }) {
                   onChange={handleActivityTypeChange}
                   placeholder="Select"
                 >
-                  <option value="" disabled></option>
+                  <option value="   " disabled></option>
                   <option value="Run" required>
                     Run
                   </option>

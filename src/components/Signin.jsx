@@ -30,7 +30,7 @@ export default function Signin() {
   };
 
   const validatePassword = () => {
-    if (32 > password.length < 8) {
+    if (password.length < 8) {
       setPasswordError(
         "Password must be at least 8 characters long less then 32."
       );
@@ -48,7 +48,7 @@ export default function Signin() {
     e.preventDefault();
     validateEmail();
     validatePassword();
-    if (!emailError && !passwordError) {
+    if (emailError == "" && passwordError == "") {
       const mutationArgs = {
         email,
         password,
